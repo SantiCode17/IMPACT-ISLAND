@@ -8,7 +8,7 @@ public class Personaje {
     private double cordura;
 
 
-    public Personaje(String nombre, int vida, int sed, int hambre, Inventario inventario, double cordura) {
+    public Personaje(String nombre, int sed, int hambre, Inventario inventario, double cordura) {
         this.nombre = nombre;
         this.sed = sed;
         this.hambre = hambre;

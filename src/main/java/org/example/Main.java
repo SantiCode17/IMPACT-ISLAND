@@ -13,12 +13,8 @@ public class Main {
     }
 
     private static Personaje[] crearPartidaNueva(){
-        Personaje personaje1 = new Personaje("Juan", 100, 10, 0, 100, 100, 1, new Inventario());
+        Personaje personaje1 = new Personaje("Juan", 100, 100, new Inventario(), 100);
 
         return new Personaje[0];
-    }
-
-    private static void batalla(SistemaBatalla sistemaBatalla){
-
     }
 }
