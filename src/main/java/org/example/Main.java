@@ -8,7 +8,7 @@ public class Main {
         System.out.println("IMPACT ISLAND");
         System.out.println("=============");
 
-        
+
 
     }
 
@@ -16,5 +16,9 @@ public class Main {
         Personaje personaje1 = new Personaje("Juan", 100, 10, 0, 100, 100, 1, new Inventario());
 
         return new Personaje[0];
+    }
+
+    private static void batalla(SistemaBatalla sistemaBatalla){
+
     }
 }
