@@ -13,5 +13,9 @@ public class Objeto {
         return nombre;
     }
 
+    @Override
+    public String toString() {
+        return nombre + ": " + descripcion;
+    }
 
 }
