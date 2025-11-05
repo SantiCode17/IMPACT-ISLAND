@@ -1,6 +1,11 @@
 package org.example;
 
+import java.util.Scanner;
+
 public class Main {
+
+    private static Scanner sc = new Scanner(System.in);
+
     public static void main(String[] args) {
         Juego juego = new Juego();
 
@@ -13,8 +18,11 @@ public class Main {
     }
 
     private static Personaje[] crearPartidaNueva(){
-        Personaje personaje1 = new Personaje("Juan", 100, 100, new Inventario(), 100);
+        System.out.println("Introduce el nombre del personaje:");
+        String nombre = sc.nextLine();
 
-        return new Personaje[0];
+        Personaje personaje1 = Personaje.crearPersonaje(nombre);
+
+        return new Personaje[]{personaje1};
     }
 }

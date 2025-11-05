@@ -55,4 +55,8 @@ public class Personaje {
     public void setCordura(double cordura) {
         this.cordura = cordura;
     }
+
+    public static Personaje crearPersonaje(String nombre) {
+        return new Personaje(nombre, 100, 100, new Inventario(), 100);
+    }
 }
