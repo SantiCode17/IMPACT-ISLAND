@@ -1,4 +1,4 @@
-package org.example;
+package game;
 
 import java.util.Scanner;
 
@@ -6,7 +6,7 @@ public class Main {
 
     private static final Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
         Juego juego = new Juego();
 
         System.out.println("=============");
@@ -14,7 +14,7 @@ public class Main {
         System.out.println("=============");
 
 
-
+        sc.nextLine();
     }
 
     private static Personaje[] crearPartidaNueva(){
