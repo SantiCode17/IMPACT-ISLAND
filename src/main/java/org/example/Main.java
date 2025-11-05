@@ -9,12 +9,12 @@ public class Main {
 
     //INICIA EJECUCIÓN
     public static void main(String[] args) {
-        String resultado = mostrarMenu();
+        int resultado = mostrarMenu();
         interaccion(resultado);
     }
 
     //MUESTRA MENU
-    private static String mostrarMenu() {
+    private static int mostrarMenu() {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("=============");
@@ -27,12 +27,12 @@ public class Main {
         System.out.println("4. Salir");
         System.out.print("\nSelecciona una opción: ");
 
-        String eleccion = sc.nextLine();
+        int eleccion = sc.nextInt();
         return eleccion;
     }
 
     //GESTIONA LA RESPUESTA DEL MENU
-    private static void interaccion(String resultado) {
+    private static void interaccion(int resultado) {
         System.out.println(resultado);
         switch (resultado) {
             case 1:
