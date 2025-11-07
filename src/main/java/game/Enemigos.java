@@ -1,4 +1,4 @@
-package org.example;
+package game;
 
 public class Enemigos {
     private String nombre;

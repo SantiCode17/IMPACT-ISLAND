@@ -1,4 +1,4 @@
-package org.example;
+package game;
 
 public class Personaje {
     private String nombre;
