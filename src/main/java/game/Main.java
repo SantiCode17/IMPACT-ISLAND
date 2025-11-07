@@ -49,9 +49,6 @@ public class Main {
         }
     }
 
-
-
-
     private static Personaje[] crearPartidaNueva(){
         Scanner sc = new Scanner(System.in);
         System.out.println("Introduce el nombre del personaje:");
