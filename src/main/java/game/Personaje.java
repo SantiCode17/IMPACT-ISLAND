@@ -1,62 +1,43 @@
 package game;
 
 public class Personaje {
-    private String nombre;
-    private int sed;
-    private int hambre;
-    private Inventario inventario;
-    private double cordura;
+    private int vida;
+    private final int vidaMaxima;
+    private final Inventario inventario;
+    private final GestorLogros gestorLogros;
 
-
-    public Personaje(String nombre, int sed, int hambre, Inventario inventario, double cordura) {
-        this.nombre = nombre;
-        this.sed = sed;
-        this.hambre = hambre;
-        this.inventario = inventario;
-        this.cordura = cordura;
+    public Personaje(int vida) {
+        this.vidaMaxima = vida;
+        this.vida = vida;
+        this.inventario = new Inventario();
+        this.gestorLogros = new GestorLogros();
     }
 
-    public String getNombre() {
-        return nombre;
+    public static Personaje crearPersonaje() {
+        return new Personaje(100);
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    private int clamp(int valor) {
+        return Math.max(0, Math.min(valor, this.vidaMaxima));
     }
 
-    public int getSed() {
-        return sed;
+    public int getVida() { return vida; }
+    public int getVidaMaxima() { return vidaMaxima; }
+    public Inventario getInventario() { return inventario; }
+    public GestorLogros getGestorLogros() { return gestorLogros; }
+
+    public void setVida(int vida) { this.vida = clamp(vida); }
+
+    public void modificarVida(int cantidad) {
+        this.vida = clamp(this.vida + cantidad);
     }
 
-    public void setSed(int sed) {
-        this.sed = sed;
+    public void ganarItem(Objeto objeto) {
+        this.inventario.add(objeto);
     }
 
-    public int getHambre() {
-        return hambre;
-    }
-
-    public void setHambre(int hambre) {
-        this.hambre = hambre;
-    }
-
-    public Inventario getInventario() {
-        return inventario;
-    }
-
-    public void setInventario(Inventario inventario) {
-        this.inventario = inventario;
-    }
-
-    public double getCordura() {
-        return cordura;
-    }
-
-    public void setCordura(double cordura) {
-        this.cordura = cordura;
-    }
-
-    public static Personaje crearPersonaje(String nombre) {
-        return new Personaje(nombre, 100, 100, new Inventario(), 100);
+    @Override
+    public String toString() {
+        return "Tu personaje tiene " + vida + " de vida";
     }
 }
