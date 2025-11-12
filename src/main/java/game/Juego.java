@@ -5,20 +5,20 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 public class Juego {
 
+    public final String nombre;
     private final Personaje personaje;
     private final Map<String, Scene> scenes;
     private String currentSceneId;
-    private final Scanner scanner;
-    private boolean isRunning;
+    public boolean isRunning;
 
-    public Juego(Personaje personaje) {
+    public Juego(String nombre, Personaje personaje) {
+        this.nombre = nombre;
         this.personaje = personaje;
-        this.scanner = new Scanner(System.in);
         this.scenes = loadGameData("dialogos.json");
+        this.currentSceneId = "CONTEXTO";
         this.isRunning = true;
     }
 
@@ -49,7 +49,7 @@ public class Juego {
             return;
         }
 
-        currentSceneId = "CONTEXTO";
+        System.out.printf("Jugando en el mundo: %s%n", this.nombre);
 
         while (isRunning) {
 
@@ -84,7 +84,7 @@ public class Juego {
 
             if (currentScene.options == null || currentScene.options.isEmpty()) {
                 if (currentScene.nextScene != null) {
-                    Consola.pausarYEsperarEnter(scanner, "...");
+                    Consola.pausarYEsperarEnter("...");
                     currentSceneId = currentScene.nextScene;
                     continue;
                 } else {
@@ -122,7 +122,7 @@ public class Juego {
                     currentSceneId = outcome.nextScene;
                     escenaAvanza = true;
 
-                    Consola.pausarYEsperarEnter(scanner, "Continuar...");
+                    Consola.pausarYEsperarEnter("Continuar...");
 
                 } else {
                     Consola.imprimirEfecto("Comando no válido. Inténtalo de nuevo.", -1);
@@ -167,7 +167,7 @@ public class Juego {
 
     private String getUserInput() {
         System.out.print(Consola.ANSI_BOLD + Consola.ANSI_YELLOW + "\n> ¿Qué haces?: " + Consola.ANSI_RESET);
-        return scanner.nextLine().trim().toUpperCase();
+        return Consola.input.nextLine().trim().toUpperCase();
     }
 
     private void handleMenuChoice(String input) {
@@ -192,13 +192,13 @@ public class Juego {
                 break;
             case "Q":
                 Consola.imprimirDescripcion("¿Seguro que quieres salir? (S/N)");
-                String confirm = scanner.nextLine().trim().toUpperCase();
+                final String confirm = Consola.input.nextLine().trim().toUpperCase();
                 if (confirm.equals("S")) {
                     isRunning = false;
                 }
                 return;
         }
-        Consola.pausarYEsperarEnter(scanner, "Volver al juego...");
+        Consola.pausarYEsperarEnter("Volver al juego...");
     }
 
     private void displayOutcome(Outcome outcome) {
@@ -250,7 +250,7 @@ public class Juego {
 
         System.out.println("\n" + Consola.ANSI_WHITE + personaje.getInventario().toString() + Consola.ANSI_RESET);
 
-        Consola.pausarYEsperarEnter(scanner, "Descansar y continuar al siguiente día...");
+        Consola.pausarYEsperarEnter("Descansar y continuar al siguiente día...");
     }
 
     private boolean checkPrecondition(String precondition) {
