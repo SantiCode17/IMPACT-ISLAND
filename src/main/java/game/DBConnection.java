@@ -21,6 +21,26 @@ public class DBConnection {
         this.con = DriverManager.getConnection(url, user, password);
     }
 
+    public void createGame(String nombre) {
+        final var sql = "INSERT INTO games(name) VALUES (?)";
+        try (final var stmt = this.con.prepareStatement(sql)) {
+            stmt.setString(1, nombre);
+            stmt.executeUpdate();
+        } catch (SQLException _) {
+            System.err.println("No se pudo crear el registro de la partida.");
+        }
+    }
+
+    public void createAdvancement(String advancementName, int gameId) {
+        final var sql = "INSERT INTO games_advancements(advancement_name, game_id) VALUES (?, ?)";
+        try (final var stmt = this.con.prepareStatement(sql)) {
+            stmt.setString(1, advancementName);
+            stmt.setInt(2, gameId);
+        } catch (SQLException _) {
+            System.err.println("No se pudo crear el registro del logro.");
+        }
+    }
+
     // Singleton related
     private static DBConnection instance = null;
 
