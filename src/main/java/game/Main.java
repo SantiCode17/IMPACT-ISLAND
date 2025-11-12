@@ -19,8 +19,8 @@ public class Main {
         Consola.imprimirLento("\nCargando datos del juego...");
         System.out.print(Consola.ANSI_RESET);
 
-        Personaje personaje = Personaje.crearPersonaje();
-        Juego juego = new Juego(personaje);
+        final Personaje personaje = Personaje.crearPersonaje();
+        final Juego juego = new Juego(personaje);
 
         juego.empezarJuego();
 

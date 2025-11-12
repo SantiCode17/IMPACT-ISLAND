@@ -1,9 +1,8 @@
 package game;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
-public class Menu<Context, Callback extends Consumer<Context>> {
+public class Menu {
     public static final String DEFAULT_PROMPT = "> ";
     public static final int DEFAULT_START_INDEX = 1;
 
@@ -14,7 +13,7 @@ public class Menu<Context, Callback extends Consumer<Context>> {
         this.title = title;
     }
 
-    public Menu<Context, Callback> addOption(String description, Callback callback) {
+    public Menu addOption(String description, Runnable callback) {
         this.options.add(new Option(description, callback));
         return this;
     }
@@ -53,27 +52,27 @@ public class Menu<Context, Callback extends Consumer<Context>> {
         return this.build(DEFAULT_PROMPT, DEFAULT_START_INDEX);
     }
 
-    public boolean exec(Context ctx, int optIndex, int start) {
+    public boolean exec(int optIndex, int start) {
         optIndex -= start;
 
         if (optIndex < 0 || optIndex >= this.options.size()) {
             return false;
         }
 
-        this.options.get(optIndex).callback.accept(ctx);
+        this.options.get(optIndex).callback.run();
 
         return true;
     }
 
-    public boolean exec(Context ctx, int optIndex) {
-        return this.exec(ctx, optIndex, DEFAULT_START_INDEX);
+    public boolean exec(int optIndex) {
+        return this.exec(optIndex, DEFAULT_START_INDEX);
     }
 
-    private class Option {
+    private static class Option {
         public String description;
-        public Callback callback;
+        public Runnable callback;
 
-        public Option(String description, Callback callback) {
+        public Option(String description, Runnable callback) {
             this.description = description;
             this.callback = callback;
         }
