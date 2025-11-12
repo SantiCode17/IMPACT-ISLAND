@@ -29,9 +29,9 @@ public class Consola {
     public static final String ICONO_TITULO = "🏝️";
     public static final String ICONO_FIN_DIA = "🌙";
 
-    public static final int PAUSA_CORTA_MS = 15;
-    public static final int PAUSA_MEDIA_MS = 300;
-    public static final int PAUSA_DIALOGO_MS = 500;
+    public static final int PAUSA_CORTA_MS = 0; // 15
+    public static final int PAUSA_MEDIA_MS = 0; // 300
+    public static final int PAUSA_DIALOGO_MS = 0; // 500
 
     public static final int CHAR_CHUNK_SIZE = 10;
 
@@ -178,15 +178,15 @@ public class Consola {
         limpiarPantalla();
         pausa(1000);
 
-        final String muerte = "=========================================\n" +
-                "==                                     ==\n" +
+        final String muerte = Consola.ANSI_BOLD + Consola.ANSI_CYAN +   "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n" +
+                "||                                    ||\n" +
                 String.format(
-                        "==           %s HAS MUERTO     %s      ==",
+                        "||           %s HAS MUERTO %s         ||",
                         ICONO_CALAVERA, ICONO_CALAVERA
                 ) +
                 '\n' +
-                "==                                     ==\n" +
-                "=========================================";
+                "||                                    ||\n" +
+                "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
 
         System.out.print(ANSI_RED_BACKGROUND + ANSI_BOLD + ANSI_WHITE);
         imprimirLento(muerte);
