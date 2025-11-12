@@ -24,7 +24,12 @@ public class Main {
         System.out.println("Escribe el nombre de la nueva partida.");
         final var gameName = Consola.prompt();
 
-        return new Juego(gameName, Personaje.crearPersonaje());
+        final Optional<Integer> gameId = DBConnection.getInstance().createGame(gameName);
+        if (gameId.isEmpty()) {
+            throw new RuntimeException("No se pudo obtener el id de la partida.");
+        }
+
+        return new Juego(gameName, Personaje.crearPersonaje(), gameId.get());
     }
 
     static void main(String[] args) {

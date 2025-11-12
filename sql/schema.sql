@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS games (
 CONSTRAINT TABLE IF NOT EXISTS games_advancements (
     id INT UNSIGNED AUTO_INCREMENT,
     advancement_name TEXT NOT NULL,
+    advancement_description TEXT NOT NULL,
     game_id INT UNSIGNED NOT NULL,
     obtained DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

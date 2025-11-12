@@ -3,6 +3,7 @@ package game;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Optional;
 
 public class DBConnection {
     private final Connection con;
@@ -21,21 +22,30 @@ public class DBConnection {
         this.con = DriverManager.getConnection(url, user, password);
     }
 
-    public void createGame(String nombre) {
+    public Optional<Integer> createGame(String nombre) {
         final var sql = "INSERT INTO games(name) VALUES (?)";
         try (final var stmt = this.con.prepareStatement(sql)) {
             stmt.setString(1, nombre);
             stmt.executeUpdate();
+
+            try (final var rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    return Optional.of(rs.getInt(1));
+                }
+            }
         } catch (SQLException _) {
             System.err.println("No se pudo crear el registro de la partida.");
         }
+        return Optional.empty();
     }
 
-    public void createAdvancement(String advancementName, int gameId) {
-        final var sql = "INSERT INTO games_advancements(advancement_name, game_id) VALUES (?, ?)";
+    public void createAdvancement(String name, String description, int gameId) {
+        final var sql = "INSERT INTO games_advancements(advancement_name, advancement_description, game_id) VALUES (?, ?, ?)";
         try (final var stmt = this.con.prepareStatement(sql)) {
-            stmt.setString(1, advancementName);
-            stmt.setInt(2, gameId);
+            stmt.setString(1, name);
+            stmt.setString(2, description);
+            stmt.setInt(3, gameId);
+            stmt.executeUpdate();
         } catch (SQLException _) {
             System.err.println("No se pudo crear el registro del logro.");
         }
