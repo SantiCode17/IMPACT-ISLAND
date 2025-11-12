@@ -181,7 +181,7 @@ public class Consola {
         final String muerte = "=========================================\n" +
                 "==                                     ==\n" +
                 String.format(
-                        "==           %s HAS MUERTO     %s        ==",
+                        "==           %s HAS MUERTO     %s      ==",
                         ICONO_CALAVERA, ICONO_CALAVERA
                 ) +
                 '\n' +
