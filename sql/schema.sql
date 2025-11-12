@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS games (
     CONSTRAINT games_pk PRIMARY KEY(id)
 );
 
-CONSTRAINT TABLE IF NOT EXISTS games_advancements (
+CREATE TABLE IF NOT EXISTS games_advancements (
     id INT UNSIGNED AUTO_INCREMENT,
     advancement_name TEXT NOT NULL,
     advancement_description TEXT NOT NULL,
