@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class Main {
@@ -23,10 +24,23 @@ public class Main {
         System.out.println("Escribe el nombre de la nueva partida.");
         final var gameName = Consola.prompt();
 
-        return new Juego(gameName, Personaje.crearPersonaje());
+        final Optional<Integer> gameId = DBConnection.getInstance().createGame(gameName);
+        if (gameId.isEmpty()) {
+            throw new RuntimeException("No se pudo obtener el id de la partida.");
+        }
+
+        return new Juego(gameName, Personaje.crearPersonaje(), gameId.get());
     }
 
     static void main(String[] args) {
+        try {
+            DBConnection.connect();
+        } catch (SQLException err) {
+            System.err.println("No se pudo conectar a la base de datos:");
+            err.printStackTrace(System.err);
+            return;
+        }
+
         Consola.limpiarPantalla();
 
         String titulo =

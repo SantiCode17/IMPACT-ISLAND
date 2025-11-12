@@ -13,13 +13,15 @@ public class Juego {
     private final Map<String, Scene> scenes;
     private String currentSceneId;
     public boolean isRunning;
+    private final int gameId;
 
-    public Juego(String nombre, Personaje personaje) {
+    public Juego(String nombre, Personaje personaje, int gameId) {
         this.nombre = nombre;
         this.personaje = personaje;
         this.scenes = loadGameData("dialogos.json");
         this.currentSceneId = "CONTEXTO";
         this.isRunning = true;
+        this.gameId = gameId;
     }
 
     private Map<String, Scene> loadGameData(String jsonFileName) {
@@ -38,7 +40,7 @@ public class Juego {
             return gameData.scenes;
         } catch (Exception e) {
             System.out.println(Consola.ANSI_RED + "Error fatal: No se pudo cargar el archivo " + path + Consola.ANSI_RESET);
-            e.printStackTrace();
+            e.printStackTrace(System.err);
             return null;
         }
     }
@@ -70,8 +72,8 @@ public class Juego {
             displaySceneDescription(currentScene);
 
             if (currentScene.endGame) {
-                if ("FINAL_1".equals(currentScene.id)) personaje.getGestorLogros().desbloquearLogro("FINAL_BUENO");
-                if ("FINAL_2".equals(currentScene.id)) personaje.getGestorLogros().desbloquearLogro("FINAL_MALO");
+                if ("FINAL_1".equals(currentScene.id)) personaje.getGestorLogros().desbloquearLogro("FINAL_BUENO", gameId);
+                if ("FINAL_2".equals(currentScene.id)) personaje.getGestorLogros().desbloquearLogro("FINAL_MALO", gameId);
                 isRunning = false;
                 break;
             }
@@ -231,7 +233,7 @@ public class Juego {
         }
 
         if (effect.unlockAchievement != null && !effect.unlockAchievement.isEmpty()) {
-            personaje.getGestorLogros().desbloquearLogro(effect.unlockAchievement);
+            personaje.getGestorLogros().desbloquearLogro(effect.unlockAchievement, gameId);
         }
     }
 
@@ -242,7 +244,7 @@ public class Juego {
         imprimirDescripciones(scene.summary);
 
         if ("DIA_1_10".equals(scene.id)) {
-            personaje.getGestorLogros().desbloquearLogro("SOBREVIVIENTE_DIA_1");
+            personaje.getGestorLogros().desbloquearLogro("SOBREVIVIENTE_DIA_1", gameId);
         }
 
         Consola.imprimirEfecto("\n[ESTADO AL FINAL DEL DÍA]", 0);

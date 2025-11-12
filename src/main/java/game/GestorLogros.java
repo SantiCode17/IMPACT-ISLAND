@@ -21,21 +21,29 @@ public class GestorLogros {
         logros.put(logro.getId(), logro);
     }
 
-    public void desbloquearLogro(String id) {
-        Logro logro = logros.get(id);
-        if (logro != null && !logro.isConseguido()) {
-            logro.completar();
-
-            Consola.pausa(Consola.PAUSA_MEDIA_MS);
-            System.out.println(Consola.ANSI_PURPLE + "\n========================================" + Consola.ANSI_RESET);
-
-            System.out.print(Consola.ANSI_YELLOW);
-            Consola.imprimirLento("  ¡LOGRO DESBLOQUEADO! " + Consola.ICONO_LOGROS);
-            System.out.print(Consola.ANSI_RESET);
-            System.out.println(Consola.ANSI_WHITE + "  " + logro.getNombre() + ": " + logro.getDescripcion() + Consola.ANSI_RESET);
-            System.out.println(Consola.ANSI_PURPLE + "========================================" + Consola.ANSI_RESET);
-            Consola.pausa(Consola.PAUSA_DIALOGO_MS);
+    public void desbloquearLogro(String id, int gameId) {
+        final var logro = logros.get(id);
+        if (logro == null || logro.isConseguido()) {
+            return;
         }
+
+        DBConnection.getInstance().createAdvancement(
+                logro.getNombre(),
+                logro.getDescripcion(),
+                gameId
+        );
+
+        logro.completar();
+
+        Consola.pausa(Consola.PAUSA_MEDIA_MS);
+        System.out.println(Consola.ANSI_PURPLE + "\n========================================" + Consola.ANSI_RESET);
+
+        System.out.print(Consola.ANSI_YELLOW);
+        Consola.imprimirLento("  ¡LOGRO DESBLOQUEADO! " + Consola.ICONO_LOGROS);
+        System.out.print(Consola.ANSI_RESET);
+        System.out.println(Consola.ANSI_WHITE + "  " + logro.getNombre() + ": " + logro.getDescripcion() + Consola.ANSI_RESET);
+        System.out.println(Consola.ANSI_PURPLE + "========================================" + Consola.ANSI_RESET);
+        Consola.pausa(Consola.PAUSA_DIALOGO_MS);
     }
 
     @Override
