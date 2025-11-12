@@ -1,6 +1,6 @@
 package game;
 
-import java.util.Scanner;
+import java.io.IO;
 import java.util.concurrent.TimeUnit;
 
 public class Consola {
@@ -63,12 +63,12 @@ public class Consola {
         System.out.println();
     }
 
-    public static void pausarYEsperarEnter(Scanner scanner, String mensaje) {
+    public static void pausarYEsperarEnter(String mensaje) {
         System.out.printf(
                 "%s%s%n%s%n[PRESIONA ENTER]%s",
                 ANSI_ITALIC, ANSI_WHITE, mensaje, ANSI_RESET
         );
-        scanner.nextLine();
+        IO.readln();
     }
 
     public static void imprimirDescripcion(String texto) {
