@@ -1,6 +1,6 @@
 package game;
 
-import java.io.IO;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Consola {
@@ -35,6 +35,17 @@ public class Consola {
 
     public static final int CHAR_CHUNK_SIZE = 10;
 
+    public static final Scanner input = new Scanner(System.in);
+
+    public static String prompt(String prompt) {
+        System.out.print(prompt);
+        return input.nextLine();
+    }
+
+    public static String prompt() {
+        return prompt("> ");
+    }
+
     public static void limpiarPantalla() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -68,7 +79,7 @@ public class Consola {
                 "%s%s%n%s%n[PRESIONA ENTER]%s",
                 ANSI_ITALIC, ANSI_WHITE, mensaje, ANSI_RESET
         );
-        IO.readln();
+        input.nextLine();
     }
 
     public static void imprimirDescripcion(String texto) {

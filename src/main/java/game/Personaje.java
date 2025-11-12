@@ -1,29 +1,20 @@
 package game;
 
 public class Personaje {
-    public static final String DEFAULT_NOMBRE = "Moniato";
-    public static final int DEFAULT_VIDA = 100;
-
-    private String nombre;
     private int vida;
     private final int vidaMaxima;
     private final Inventario inventario;
     private final GestorLogros gestorLogros;
 
-    public Personaje(String nombre, int vida) {
-        this.nombre = nombre;
+    public Personaje(int vida) {
         this.vidaMaxima = vida;
         this.vida = vida;
         this.inventario = new Inventario();
         this.gestorLogros = new GestorLogros();
     }
 
-    public static Personaje crearPersonaje(String nombre) {
-        return new Personaje(nombre, DEFAULT_VIDA);
-    }
-
     public static Personaje crearPersonaje() {
-        return crearPersonaje(DEFAULT_NOMBRE);
+        return new Personaje(100);
     }
 
     private int clamp(int valor) {

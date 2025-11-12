@@ -2,19 +2,20 @@ package game;
 
 import com.google.gson.Gson;
 import java.io.FileReader;
-import java.io.IO;
 import java.io.Reader;
 import java.util.List;
 import java.util.Map;
 
 public class Juego {
 
+    public final String nombre;
     private final Personaje personaje;
     private final Map<String, Scene> scenes;
     private String currentSceneId;
-    private boolean isRunning;
+    public boolean isRunning;
 
-    public Juego(Personaje personaje) {
+    public Juego(String nombre, Personaje personaje) {
+        this.nombre = nombre;
         this.personaje = personaje;
         this.scenes = loadGameData("dialogos.json");
         this.currentSceneId = "CONTEXTO";
@@ -47,6 +48,8 @@ public class Juego {
             Consola.imprimirEfecto("No se pudo iniciar el juego. Faltan los datos.", -1);
             return;
         }
+
+        System.out.printf("Jugando en el mundo: %s%n", this.nombre);
 
         while (isRunning) {
 
@@ -164,7 +167,7 @@ public class Juego {
 
     private String getUserInput() {
         System.out.print(Consola.ANSI_BOLD + Consola.ANSI_YELLOW + "\n> ¿Qué haces?: " + Consola.ANSI_RESET);
-        return IO.readln().trim().toUpperCase();
+        return Consola.input.nextLine().trim().toUpperCase();
     }
 
     private void handleMenuChoice(String input) {
@@ -189,7 +192,7 @@ public class Juego {
                 break;
             case "Q":
                 Consola.imprimirDescripcion("¿Seguro que quieres salir? (S/N)");
-                String confirm = IO.readln().trim().toUpperCase();
+                final String confirm = Consola.input.nextLine().trim().toUpperCase();
                 if (confirm.equals("S")) {
                     isRunning = false;
                 }
