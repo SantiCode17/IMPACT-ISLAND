@@ -29,9 +29,9 @@ public class Consola {
     public static final String ICONO_TITULO = "🏝️";
     public static final String ICONO_FIN_DIA = "🌙";
 
-    public static final int PAUSA_CORTA_MS = 0; // 15
-    public static final int PAUSA_MEDIA_MS = 0; // 300
-    public static final int PAUSA_DIALOGO_MS = 0; // 500
+    public static final int PAUSA_CORTA_MS = 15; // 15
+    public static final int PAUSA_MEDIA_MS = 300; // 300
+    public static final int PAUSA_DIALOGO_MS = 500; // 500
 
     public static final int CHAR_CHUNK_SIZE = 10;
 
