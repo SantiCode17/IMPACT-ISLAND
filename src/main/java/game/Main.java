@@ -27,7 +27,9 @@ public class Main {
 
         Consola.pausa(Consola.PAUSA_MEDIA_MS);
         System.out.print(Consola.ANSI_BLACK);
-        Consola.imprimirLento("\n...has vuelto al silencio.");
+        Consola.imprimirLento("\n...has vuelto al silencio."
+
+        );
         System.out.print(Consola.ANSI_RESET);
         Consola.imprimirDescripcion("\nGracias por jugar.");
     }

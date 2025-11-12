@@ -148,7 +148,7 @@ public class Consola {
         String muerte =
                 "=========================================\n" +
                         "==                                     ==\n" +
-                        "==            " + ICONO_CALAVERA + " HAS MUERTO " + ICONO_CALAVERA + "            ==\n" +
+                        "==            " + ICONO_CALAVERA + " HAS MUERTO " + ICONO_CALAVERA + "         ==\n" +
                         "==                                     ==\n" +
                         "=========================================";
 
