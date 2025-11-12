@@ -7,10 +7,10 @@ public class Main {
         Consola.limpiarPantalla();
 
         String titulo =
-                "==================================================\n" +
-                        Consola.ANSI_BOLD + Consola.ANSI_CYAN + "           SUPERVIVENCIA EN LA ISLA: \n" +
-                        Consola.ANSI_BOLD + Consola.ANSI_YELLOW + "             EL LORO PERDIDO " + "🦜" + "\n" +
-                        Consola.ANSI_BOLD + Consola.ANSI_CYAN + "==================================================";
+                Consola.ANSI_BOLD + Consola.ANSI_CYAN + "==================================================\n" +
+                Consola.ANSI_BOLD + Consola.ANSI_CYAN + "           SUPERVIVENCIA EN LA ISLA: \n" +
+                Consola.ANSI_BOLD + Consola.ANSI_YELLOW + "             EL LORO PERDIDO " + "🦜" + "\n" +
+                Consola.ANSI_BOLD + Consola.ANSI_CYAN + "==================================================";
 
         System.out.println(titulo + Consola.ANSI_RESET);
         Consola.pausa(Consola.PAUSA_MEDIA_MS);
