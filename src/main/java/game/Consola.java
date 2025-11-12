@@ -33,6 +33,8 @@ public class Consola {
     public static final int PAUSA_MEDIA_MS = 300;
     public static final int PAUSA_DIALOGO_MS = 500;
 
+    public static final int CHAR_CHUNK_SIZE = 10;
+
     public static void limpiarPantalla() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
@@ -47,60 +49,85 @@ public class Consola {
     }
 
     public static void imprimirLento(String texto) {
-        for (char c : texto.toCharArray()) {
+        int counter = 0;
+        for (final char c : texto.toCharArray()) {
             System.out.print(c);
+            if ((++counter) % CHAR_CHUNK_SIZE == 0) {
+                System.out.flush();
+                pausa(PAUSA_CORTA_MS);
+            }
+        }
+        if (counter % CHAR_CHUNK_SIZE != 0) {
             pausa(PAUSA_CORTA_MS);
         }
         System.out.println();
     }
 
     public static void pausarYEsperarEnter(Scanner scanner, String mensaje) {
-        System.out.print(ANSI_ITALIC + ANSI_WHITE + "\n  " + mensaje + " [Presiona ENTER]" + ANSI_RESET);
-        try {
-            scanner.nextLine();
-        } catch (Exception e) {
-            System.out.println("Error");
-        }
+        System.out.printf(
+                "%s%s%n%s%n[PRESIONA ENTER]%s",
+                ANSI_ITALIC, ANSI_WHITE, mensaje, ANSI_RESET
+        );
+        scanner.nextLine();
     }
 
     public static void imprimirDescripcion(String texto) {
-        System.out.print(ANSI_WHITE + "  ");
+        System.out.print(ANSI_WHITE);
         imprimirLento(texto);
         System.out.print(ANSI_RESET);
         pausa(PAUSA_MEDIA_MS);
     }
 
     public static void imprimirTitulo(String texto) {
-        String borde = "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
-        String tituloFormato = " " + ICONO_TITULO + " " + texto.toUpperCase() + " " + ICONO_TITULO + " ";
+        final String borde = "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
+        final String tituloFormato = String.format(
+                " %s %s %s ",
+                ICONO_TITULO, texto.toUpperCase(), ICONO_TITULO
+        );
+        System.out.printf(
+                "%n%n%s%s%s%s",
+                ANSI_BOLD, ANSI_CYAN, borde, ANSI_RESET
+        );
 
-        System.out.println("\n\n" + ANSI_BOLD + ANSI_CYAN + borde + ANSI_RESET);
+        final String padding = " ".repeat(
+                Math.max(
+                        0,
+                        (borde.length() - tituloFormato.length()) / 2
+                )
+        );
 
-        int paddingTotal = (borde.length() - tituloFormato.length()) / 2;
-        String padding = " ".repeat(Math.max(0, paddingTotal));
+        System.out.printf(
+                "%s%s%s%s%s%s%s%n%n",
+                ANSI_BOLD, ANSI_CYAN,
+                padding, tituloFormato, padding,
+                borde,
+                ANSI_RESET
+        );
 
-        System.out.println(ANSI_BOLD + ANSI_CYAN + padding + tituloFormato + padding + ANSI_RESET);
-        System.out.println(ANSI_BOLD + ANSI_CYAN + borde + ANSI_RESET + "\n");
+        System.out.flush();
         pausa(PAUSA_MEDIA_MS);
     }
 
-    public static void imprimirDialogo(String speaker, String line) {
-        String color;
-        String prefijo;
+    private static String buildPrefixImprimirDialogo(String speaker, String color) {
+        return String.format(
+                "%s%s %s: %s%s%s\"",
+                ANSI_BOLD, color, speaker, ANSI_RESET, ANSI_ITALIC, ANSI_YELLOW
+        );
+    }
 
-        if ("JEFFRY".equalsIgnoreCase(speaker)) {
-            color = ANSI_YELLOW;
-            prefijo = ANSI_BOLD + color + "  JEFFRY: " + ANSI_RESET + ANSI_ITALIC + color + "\"";
+    public static void imprimirDialogo(String speaker, String line) {
+        final String loro = "JEFFRY";
+
+        final String prefijo;
+        if (loro.equalsIgnoreCase(speaker)) {
+            prefijo = buildPrefixImprimirDialogo(loro, ANSI_YELLOW);
         } else {
-            color = ANSI_CYAN;
-            prefijo = ANSI_BOLD + color + "  " + speaker.toUpperCase() + ": " + ANSI_RESET + ANSI_ITALIC + color + "\"";
+            prefijo = buildPrefixImprimirDialogo(speaker.toUpperCase(), ANSI_CYAN);
         }
 
-        System.out.println();
-        System.out.print(prefijo);
+        System.out.printf("%n%s", prefijo);
         imprimirLento(line + "\"");
-        System.out.print(ANSI_RESET);
-        System.out.println();
+        System.out.println(ANSI_RESET);
         pausa(PAUSA_DIALOGO_MS);
     }
 
@@ -137,7 +164,13 @@ public class Consola {
     }
 
     public static void imprimirEstado(String estado) {
-        System.out.println("\n" + ANSI_ITALIC + ANSI_PURPLE + "     " + ICONO_ESTADO + " [ESTADO: " + estado + "]" + ANSI_RESET);
+        System.out.printf(
+                "%n%s%s     %s [ESTADO: %s]%s%n",
+                ANSI_ITALIC, ANSI_PURPLE, ICONO_ESTADO,
+                estado,
+                ANSI_RESET
+        );
+        System.out.flush();
         pausa(PAUSA_MEDIA_MS);
     }
 
@@ -145,12 +178,15 @@ public class Consola {
         limpiarPantalla();
         pausa(1000);
 
-        String muerte =
-                "=========================================\n" +
-                        "==                                     ==\n" +
-                        "==            " + ICONO_CALAVERA + " HAS MUERTO " + ICONO_CALAVERA + "            ==\n" +
-                        "==                                     ==\n" +
-                        "=========================================";
+        final String muerte = "=========================================\n" +
+                "==                                     ==\n" +
+                String.format(
+                        "==           %s HAS MUERTO     %s        ==",
+                        ICONO_CALAVERA, ICONO_CALAVERA
+                ) +
+                '\n' +
+                "==                                     ==\n" +
+                "=========================================";
 
         System.out.print(ANSI_RED_BACKGROUND + ANSI_BOLD + ANSI_WHITE);
         imprimirLento(muerte);
@@ -159,11 +195,11 @@ public class Consola {
     }
 
     public static void imprimirBarraDeVida(int vidaActual, int vidaMaxima) {
-        int barLength = 20;
-        int filledLength = (int) Math.round(((double) vidaActual / vidaMaxima) * barLength);
-        int emptyLength = barLength - filledLength;
+        final int barLength = 20;
+        final int filledLength = (int) Math.round(((double) vidaActual / vidaMaxima) * barLength);
+        final int emptyLength = barLength - filledLength;
 
-        String color;
+        final String color;
         if (vidaActual > 60) {
             color = ANSI_GREEN;
         } else if (vidaActual > 30) {
@@ -172,19 +208,18 @@ public class Consola {
             color = ANSI_RED;
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n" + ANSI_BOLD + "  VIDA: " + ANSI_RESET);
-        sb.append(color);
-        sb.append("[");
-        for (int i = 0; i < filledLength; i++) sb.append("█");
-        sb.append(ANSI_BLACK);
-        for (int i = 0; i < emptyLength; i++) sb.append("░");
-        sb.append(color);
-        sb.append("] ");
-        sb.append(String.format("%d/%d", vidaActual, vidaMaxima));
-        sb.append(" " + ICONO_VIDA);
-        sb.append(ANSI_RESET);
-
-        System.out.println(sb.toString());
+        System.out.printf(
+                "%n%s VIDA: %s%s[%s%s%s%s] %d/%d %s%s%n",
+                ANSI_BOLD, ANSI_RESET,
+                color,
+                "█".repeat(Math.max(0, filledLength)),
+                ANSI_BLACK,
+                "░".repeat(Math.max(0, emptyLength)),
+                color,
+                vidaActual, vidaMaxima,
+                ICONO_VIDA,
+                ANSI_RESET
+        );
+        System.out.flush();
     }
 }
