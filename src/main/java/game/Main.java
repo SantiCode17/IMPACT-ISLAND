@@ -20,7 +20,6 @@ public class Main {
         System.out.print(Consola.ANSI_RESET);
 
         Personaje personaje = Personaje.crearPersonaje();
-
         Juego juego = new Juego(personaje);
 
         juego.empezarJuego();

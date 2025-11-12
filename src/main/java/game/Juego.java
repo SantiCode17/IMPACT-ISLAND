@@ -19,6 +19,7 @@ public class Juego {
         this.personaje = personaje;
         this.scanner = new Scanner(System.in);
         this.scenes = loadGameData("dialogos.json");
+        this.currentSceneId = "CONTEXTO";
         this.isRunning = true;
     }
 
@@ -48,8 +49,6 @@ public class Juego {
             Consola.imprimirEfecto("No se pudo iniciar el juego. Faltan los datos.", -1);
             return;
         }
-
-        currentSceneId = "CONTEXTO";
 
         while (isRunning) {
 
