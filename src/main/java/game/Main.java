@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class Main {
@@ -27,6 +28,14 @@ public class Main {
     }
 
     static void main(String[] args) {
+        try {
+            DBConnection.connect();
+        } catch (SQLException err) {
+            System.err.println("No se pudo conectar a la base de datos:");
+            err.printStackTrace(System.err);
+            return;
+        }
+
         Consola.limpiarPantalla();
 
         String titulo =
